@@ -39,4 +39,20 @@ describe('Form', () => {
             n6: 'g'
         })
     });
+
+    it('should handle backspace correct', () => {
+        const {inputs ,form} = setup();
+
+        fireEvent.paste(form!,{
+            clipboardData: {
+                getData: () => 'string'
+            }
+        })
+
+        expect(inputs[5]).toHaveFocus();
+        userEvent.type(inputs[5],'{backspace}');
+
+        expect(inputs[5]).toHaveValue('');
+        expect(inputs[4]).toHaveFocus();
+    })
 })
