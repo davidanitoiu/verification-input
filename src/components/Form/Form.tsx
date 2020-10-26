@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Form.module.css';
-import { assignCodeToInputs, focusLastInput } from './formHelpers';
+import { assignCodeToInputs, focusLastInput, focusPreviousInput } from './formHelpers';
 
 function Form({ numberOfInputs = 6 }) {
     const handlePaste = (e: React.ClipboardEvent<HTMLFormElement>) => {
@@ -14,6 +14,16 @@ function Form({ numberOfInputs = 6 }) {
         focusLastInput(form);
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if(['Backspace','Delete'].includes(e.key)) {
+            e.preventDefault();
+            const input = e.currentTarget;
+            input.value = ''
+
+            focusPreviousInput(input);
+        }
+    }
+
     return (
         <form name="verify" onPaste={handlePaste} >
             <div className={classes.inputs}>
@@ -21,7 +31,12 @@ function Form({ numberOfInputs = 6 }) {
                     [...(new Array(numberOfInputs))].map((_e, i) => {
                         const name = `n${i + 1}`;
                         return (
-                            <input key={name} type="text" name={name} maxLength={1} />
+                            <input 
+                                key={name}
+                                name={name}
+                                maxLength={1}
+                                onKeyDown={handleKeyDown}
+                            />
                         )
                     })
                 }

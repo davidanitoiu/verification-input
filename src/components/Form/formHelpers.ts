@@ -3,7 +3,7 @@ import { last } from 'lodash';
 export const assignCodeToInputs = (code: string, form: HTMLFormElement) => {
     const inputs = getInputs(form);
     const charArray = [...code];
-    
+
     charArray.forEach(
         (character, i) => inputs[i].value = character
     )
@@ -17,4 +17,11 @@ export const focusLastInput = (form: HTMLFormElement) => {
     const inputs = getInputs(form);
     const lastInput = last(inputs);
     lastInput?.focus();
+}
+
+export const focusPreviousInput = (input: HTMLInputElement) => {
+    if (!input.previousSibling) return;
+
+    const previousInput = input.previousSibling as HTMLInputElement;
+    previousInput.focus();
 }
