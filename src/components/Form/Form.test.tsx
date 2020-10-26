@@ -54,5 +54,12 @@ describe('Form', () => {
 
         expect(inputs[5]).toHaveValue('');
         expect(inputs[4]).toHaveFocus();
+    });
+
+    it('should focus next input after filling current input', () => {
+        const {inputs} = setup();
+
+        userEvent.type(inputs[0],'a');
+        expect(inputs[1]).toHaveFocus();
     })
 })
