@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Form.module.css';
-import { assignCodeToInputs, focusLastInput, focusPreviousInput } from './formHelpers';
+import { assignCodeToInputs, autoProgressInput, focusLastInput, focusPreviousInput, handleFormNavigation, handleInputNavigation } from './formHelpers';
 
 function Form({ numberOfInputs = 6 }) {
     const handlePaste = (e: React.ClipboardEvent<HTMLFormElement>) => {
@@ -15,26 +15,45 @@ function Form({ numberOfInputs = 6 }) {
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if(['Backspace','Delete'].includes(e.key)) {
-            e.preventDefault();
-            const input = e.currentTarget;
-            input.value = ''
+        const input = e.currentTarget;
 
+        if (['Backspace', 'Delete'].includes(e.key)) {
+            e.preventDefault();
+
+            input.value = ''
             focusPreviousInput(input);
+
+            return;
         }
+
+        handleInputNavigation(e.key,input);
+    }
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLFormElement>) => {
+        if (e.target instanceof HTMLInputElement && e.target.value) {
+            const input = e.target as HTMLInputElement
+            autoProgressInput(e.key, input);
+            handleInputNavigation(e.key, input);
+        }
+
+        const form = e.currentTarget as HTMLFormElement;
+        handleFormNavigation(e.key, form);
     }
 
     return (
-        <form name="verify" onPaste={handlePaste} >
+        <form name="verify" onPaste={handlePaste} onKeyDown={handleNavigation}>
             <div className={classes.inputs}>
                 {
                     [...(new Array(numberOfInputs))].map((_e, i) => {
                         const name = `n${i + 1}`;
                         return (
-                            <input 
+                            <input
                                 key={name}
                                 name={name}
                                 maxLength={1}
+                                pattern="[A-Za-z0-9]"
+                                title={'Only letters and digits are allowed'}
+                                autoComplete="off"
                                 onKeyDown={handleKeyDown}
                             />
                         )

@@ -1,41 +1,46 @@
+form {
+  background-color: white;
+  padding: 3em;
+}
+
 @media only screen and (orientation: landscape) {
-    form{
-        max-width: 50vw;
-    }
+  form {
+    max-width: 50vw;
+  }
 }
 
 @media only screen and (orientation: portrait) {
-    form {
-        padding: 10px;
-    }
+  form {
+    padding: 10px;
+  }
 }
 
 .inputs {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(6, 1fr);
-    margin-bottom: 10px;
-  }
-  
-  .inputs > * {
-    border: 1px solid black;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    font-size: 20px;
-    line-height: 1;
-  }
-  
-  button {
-    background: black;
-    color: white;
-    font-size: 20px;
-    padding: 20px;
-    border: 0;
-    width: 100%;
-    text-align: center;
-  }
-  
-  button:focus {
-    border-color: blue;
-  }
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  margin-bottom: 10px;
+}
+
+.inputs > * {
+  border: 1px solid black;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1;
+}
+
+button {
+  background: black;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  border: 0;
+  width: 100%;
+  text-align: center;
+}
+
+*:focus {
+  outline: 1px solid black;
+}
